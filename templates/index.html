@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Leave Management System</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Leave Management System</h1>
+        <form action="/login" method="post">
+            <label for="badge_number">Enter Badge Number:</label>
+            <input type="text" id="badge_number" name="badge_number" required>
+            <button type="submit">Login</button>
+        </form>                          
+    </div>
+</body>
+</html>
+

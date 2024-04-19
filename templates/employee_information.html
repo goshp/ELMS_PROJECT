@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Vacation Information</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Vacation Information</h1>
+        <table id="employee-table">
+            <thead>
+                <tr>
+                    <th>Badge Number</th>
+                    <th>Name</th>
+                    <th>Entitled Weeks</th>
+                    <th>Selected Weeks</th>
+                    <th>Remaining Weeks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for badge_number, info in employee_info.items() %}
+                <tr>
+                    <td>{{ badge_number }}</td>
+                    <td>{{ info.name }}</td>
+                    <td>{{ ', '.join(entitlements[badge_number]) }}</td>
+                    <td>
+                        {% set selected_weeks = [] %}
+                        {% for week, taken in taken_weeks.items() %}
+                            {% if taken and week in entitlements[badge_number] %}
+                                {% set _ = selected_weeks.append(week) %}
+                            {% endif %}
+                        {% endfor %}
+                        {{ ', '.join(selected_weeks) if selected_weeks|length > 0 else 'None' }}
+                    </td>
+                    <td>
+                        {% set remaining_weeks = [] %}
+                        {% for week, taken in taken_weeks.items() %}
+                            {% if not taken and week in entitlements[badge_number] %}
+                                {% set _ = remaining_weeks.append(week) %}
+                            {% endif %}
+                        {% endfor %}
+                        {{ ', '.join(remaining_weeks) if remaining_weeks|length > 0 else ', '.join(entitlements[badge_number]) }}
+                    </td>
+                </tr>
+                {% endfor %}            
+            </tbody>
+        </table>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

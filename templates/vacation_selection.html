@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation Selection</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ user_name }}!</h1>
+        <p>Please select your vacation:</p>
+        <form id="vacation-form" action="/process_vacation_selection" method="post">
+            <input type="hidden" name="badge_number" value="{{ badge_number }}">
+            <div id="vacation-options">
+                <label><input type="checkbox" name="week1"> Week 1 (March 1 - March 7)</label><br>
+                <label><input type="checkbox" name="week2"> Week 2 (March 8 - March 14)</label><br>
+                <label><input type="checkbox" name="week3"> Week 3 (March 15 - March 21)</label><br>
+                <!-- Add more vacation week options here -->
+            </div>
+            <button type="submit" onclick="confirmSelection()">Confirm Selection</button>
+        </form>
+        <div id="confirmation-dialog" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <p>Are you sure you want to confirm your selection?</p>
+                <button onclick="submitSelection()">Yes</button>
+                <button onclick="closeModal()">No</button>
+            </div>
+        </div>
+        <div id="feedback"></div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
