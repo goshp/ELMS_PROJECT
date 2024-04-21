@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 import smtplib
 from email.mime.text import MIMEText
+from flask import jsonify
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///vacation.db'
@@ -173,6 +174,17 @@ def confirm_selection():
 
         round_number += 1
         return "Vacation selection confirmed. Email sent to the next person on the list."
+
+@app.route('/get_updated_employee_information')
+def get_updated_employee_information():
+    updated_employee_info = {}
+    for badge_number in employee_info:
+        selected_weeks = [week for week, taken in taken_weeks.items() if taken and week in entitlements[badge_number]]
+        remaining_weeks = [week for week, taken in taken_weeks.items() if not taken and week in entitlements[badge_number]]
+        updated_employee_info[badge_number] = {"selected_weeks": selected_weeks, "remaining_weeks": remaining_weeks}
+    
+    return jsonify(updated_employee_info)
+
 
 @app.route('/employee_information')
 def employee_information():
